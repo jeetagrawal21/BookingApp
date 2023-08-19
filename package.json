@@ -1,0 +1,25 @@
+{
+  "name": "BookingApp",
+  "version": "1.0.0",
+  "description": "A hotel booking app that lets you book hotels over the world. Technologies used: React, Node.js, MongoDB",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeetagrawal21/BookingApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeetagrawal21/BookingApp/issues"
+  },
+  "homepage": "https://github.com/jeetagrawal21/BookingApp#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1"
+  }
+}
