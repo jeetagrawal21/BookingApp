@@ -16,13 +16,24 @@ router.post("/", async (req,res) => {
 })
 
 //GET
-router.get("/", (req,res) => {
-    
+router.get("/:id", async (req,res) => {
+    try{
+        const hotel = await Hotel.findById(req.params.id)
+        res.status(200).json(hotel)
+    }catch(err){
+        res.status(500).json(err)
+    }
 })
 //GETALL
-router.get("/", (req,res) => {
-    
+router.get("/", async (req,res) => {
+    try{
+        const allHotels = await Hotel.find()
+        res.status(200).json(allHotels)
+    }catch(err){
+        res.status(500).json(err)
+    }
 })
+
 //UPDATE
 router.put("/:id", async (req,res) => {
     try{
@@ -32,11 +43,17 @@ router.put("/:id", async (req,res) => {
         res.status(500).json(err)
     }
     
-})
+});
+
 //DELETE
-router.delete("/", (req,res) => {
-    
-})
+router.delete("/:id", async (req,res) => {
+    try{
+        await Hotel.findByIdAndDelete(req.params.id);
+        res.status(200).json("Hotel has been removed.")
+    }catch(err){
+        res.status(500).json(err)
+    }
+});
 
 
 
