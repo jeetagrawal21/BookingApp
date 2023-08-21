@@ -1,6 +1,7 @@
 import express from "express"
 import { createError } from "../utils/error.js";
 import { createHotel, deleteHotel, getAllHotel, getHotel, updateHotel } from "../controllers/hotelController.js";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
