@@ -37,9 +37,11 @@ export const login = async (req,res,next) => {
         const isPasswordCorrect = await bcrypt.compare(req.body.password,user.password)
 
         if (!isPasswordCorrect) return next(createError(400, "Password/username incorrect"))
-
+        
+        // this is required to create a token
         const token = jwt.sign({id:user._id, isAdmin:user.isAdmin}, process.env.JWT);
 
+        // This is to hide the password and isAdmin from the response
         const {password,isAdmin, ...otherDetails} = user._doc;
         res
             .cookie("access_token", token, {
