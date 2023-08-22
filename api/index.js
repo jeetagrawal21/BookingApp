@@ -9,7 +9,9 @@ import cookieParser from "cookie-parser";
 
 
 const app = express()
-dotenv.config()
+
+// require('dotenv').config();
+dotenv.config();
 
 const connect = async () => {
     try {
@@ -25,7 +27,7 @@ mongoose.connection.on("disconnected", () => {
 })
 
 //middleware
-
+app.use(cookieParser())
 app.use(express.json())
 
 app.use("/api/auth", authRoute);
