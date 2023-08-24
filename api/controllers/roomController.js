@@ -1,18 +1,18 @@
 import Room from "../models/Room.js";
 import Hotel from "../models/Hotel.js";
-import {createErrorr} from "../utils/error.js";
 
 //Create a room
 export const createRoom = async (req,res,next) => {
 
-    const hotelId = req.params.id;
+    const hotelId = req.params.hotelid;
     const newRoom = new Room(req.body);
 
     try {
         const savedRoom = await newRoom.save();
 
         try{
-            await Hotel.findById(hotelId, {$push : {rooms: savedRoom._id}});
+            await Hotel.findByIdAndUpdate(hotelId, {$push : {rooms: savedRoom._id},
+            });
 
         }
         catch(error){
@@ -25,7 +25,7 @@ export const createRoom = async (req,res,next) => {
 }
 
 // Update a room
-export const updateHotel = async (req,res, next) => {
+export const updateRoom = async (req,res, next) => {
     try{
         const updatedRoom = await Room.findByIdAndUpdate(req.params.id, { $set: req.body}, {new: true})
         res.status(200).json(updatedRoom)
@@ -36,8 +36,16 @@ export const updateHotel = async (req,res, next) => {
 
 // Delete a room
 export const deleteRoom = async (req,res, next) => {
+    const hotelId = req.params.hotelid;
     try{
         await Room.findByIdAndDelete(req.params.id);
+        try{
+            await Hotel.findByIdAndUpdate(hotelId, {$pull : {rooms: req.params.id}
+            });
+        }
+        catch(err){
+            next(err);
+        }
         res.status(200).json("Room has been removed.")
     }catch(err){
         res.status(500).json(err)
@@ -45,28 +53,19 @@ export const deleteRoom = async (req,res, next) => {
 }
 
 // Get a room
-export const getRooms = async (req,res,next) => {
+export const getRoom = async (req,res,next) => {
     try {
         const room = await Room.findById(req.params.id);
-        res.status(200).json(rooms);
+        res.status(200).json(room);
     } catch (error) {
         next(error);
     }
 }
-
-export const getRoom = async (req,res, next) => {
+//Get all rooms
+export const getAllRooms = async (req,res, next) => {
     try{
-        const hotel = await Hotel.findById(req.params.id)
-        res.status(200).json(hotel)
-    }catch(err){
-        next(err)
-    }
-}
-
-export const getAllHotel = async (req,res, next) => {
-    try{
-        const allHotels = await Hotel.find()
-        res.status(200).json(allHotels)
+        const allRooms = await Room.find()
+        res.status(200).json(allRooms)
     }catch(err){
         next(err)
     }
